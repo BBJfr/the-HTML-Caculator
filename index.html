@@ -2,18 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>The HTML Calculator</title>
+  <title>Default Calculator</title>
   <style>
-    body { font-family: Arial, sans-serif; display: flex; justify-content: center; margin-top: 50px; }
-    .calculator { border: 2px solid #333; padding: 20px; border-radius: 10px; }
-    #result { width: 100%; height: 40px; margin-bottom: 10px; text-align: right; font-size: 20px; }
-    button { width: 60px; height: 40px; margin: 5px; font-size: 18px; }
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+      background: #fafafa;
+    }
+    .calculator {
+      background: #f0f0f0;
+      border: 2px solid #333;
+      padding: 20px;
+      border-radius: 10px;
+      width: 280px;
+    }
+    #result {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      text-align: right;
+      font-size: 20px;
+      border: none;
+      background: #fff;
+      padding: 5px;
+      border-radius: 4px;
+    }
+    button {
+      width: 60px;
+      height: 40px;
+      margin: 5px;
+      font-size: 18px;
+      background: #ddd;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ccc;
+    }
+    .links {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .links a {
+      margin: 0 5px;
+      text-decoration: none;
+      color: #0066cc;
+    }
   </style>
 </head>
 <body>
-  <div class="calculator">
-    <input type="text" id="result" disabled>
-    <br>
+  <div class="calculator" id="calc">
+    <input type="text" id="result" disabled><br>
     <button onclick="clearResult()">C</button>
     <button onclick="appendValue('/')">/</button>
     <button onclick="appendValue('*')">*</button>
@@ -30,6 +72,12 @@
     <button onclick="appendValue('2')">2</button>
     <button onclick="appendValue('3')">3</button>
     <button onclick="appendValue('0')">0</button>
+
+    <div class="links">
+      <a href="TI-30.html">TI-30 Theme</a> |
+      <a href="calculator-windows.html">Windows Theme</a> |
+      <a href="calculator-old.html">Old Theme</a>
+    </div>
   </div>
 
   <script>
@@ -41,7 +89,17 @@
     }
     function calculate() {
       try {
-        document.getElementById("result").value = eval(document.getElementById("result").value);
+        let expr = document.getElementById("result").value;
+        if (expr.includes("/0")) {
+          document.getElementById("result").value = "Undefined";
+          document.getElementById("calc").style.background = "#000";
+          document.getElementById("calc").style.color = "#fff";
+          alert("Divide by zero detected — blackout mode!");
+        } else {
+          document.getElementById("result").value = eval(expr);
+          document.getElementById("calc").style.background = "#f0f0f0";
+          document.getElementById("calc").style.color = "#000";
+        }
       } catch {
         document.getElementById("result").value = "Error";
       }
